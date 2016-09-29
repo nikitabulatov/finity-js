@@ -64,3 +64,7 @@ Returns true if month and year is equals
 
 ### setLocale
 Set locale for formatting
+
+### lastMonthDate
+
+### getMonthDates

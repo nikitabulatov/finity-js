@@ -119,6 +119,17 @@ isEqualMonths = (firstDate = new Date(), lastDate = new Date) ->
   firstDate.getMonth() is lastDate.getMonth() and
     firstDate.getFullYear() is lastDate.getFullYear()
 
+lastMonthDate = (date) ->
+  new Date(date)
+  date = addMonths(date, 1)
+  date.setDate(0)
+  date
+
+getMonthDates = (date = new Date()) ->
+  date = new Date(date)
+  date.setDate(1)
+  addDays(date, i) for i in [0..lastMonthDate(date).getDate() - 1]
+
 setLocale = (locale) ->
   i18n = locale
 
