@@ -1,0 +1,36 @@
+{
+  "name": "finity-js",
+  "version": "0.0.1",
+  "description": "Date helpers",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
+    "start": "node_modules/.bin/webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikitabulatov/finity-js.git"
+  },
+  "keywords": [
+    "date",
+    "helpers",
+    "dates",
+    "compare",
+    "days",
+    "diff",
+    "date",
+    "format"
+  ],
+  "author": "nikitabulatov <bulatov.n.o@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikitabulatov/finity-js/issues"
+  },
+  "homepage": "https://github.com/nikitabulatov/finity-js#readme",
+  "devDependencies": {
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.11.0",
+    "mocha": "^3.1.0",
+    "webpack": "^1.13.2"
+  }
+}
