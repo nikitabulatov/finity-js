@@ -1,15 +1,5 @@
-# Format instanceof Date to ISO string
-#
-# @param {Date}.
-#
-# @return {String} "2016-10-08"
-dateToISO = (date) ->
-  return unless date instanceof Date
-  [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate()]
-  month = month + 1
-  month = if month < 10 then "0#{month}" else month
-  day = if day < 10 then "0#{day}" else day
-  "#{year}-#{month}-#{day}"
+i18n = ''
+_formatDate = require('./format_date')
 
 # Returns diff in days between two dates
 #
@@ -21,7 +11,6 @@ dateToISO = (date) ->
 daysDiff = (date1, date2, abs) ->
   diff = if abs then Math.abs(date1 - date2) else date1 - date2
   Math.ceil(diff / (1000 * 3600 * 24))
-
 
 # Returns days in current month
 #
@@ -132,9 +121,21 @@ isEqualMonths = (firstDate = new Date(), lastDate = new Date) ->
   firstDate.getMonth() is lastDate.getMonth() and
     firstDate.getFullYear() is lastDate.getFullYear()
 
+setLocale = (locale) ->
+  i18n = locale
+
+# Format date with pattern
+#
+# @param {Date} date
+# @param {String} format
+# @param {Object} i18n
+#
+# @return {String}
+formatDate = (date, format, genitive) ->
+  _formatDate(date, format, i18n, genitive)
+
 module.exports = {
-  formatDate: require('./format_date')
-  dateToISO,
+  formatDate,
   daysDiff,
   daysInMonth,
   getDatesRange,
@@ -144,5 +145,6 @@ module.exports = {
   isEqualMonths,
   addDays,
   addMonths,
-  addYears
+  addYears,
+  setLocale
 }

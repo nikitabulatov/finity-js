@@ -1,4 +1,6 @@
-_formatMatch = (date, match, i18n) ->
+formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yyyy)|(yy)|(MMMM)|(MMM)|(Do)/g)
+
+_formatMatch = (date, match, i18n, genitive) ->
   day = date.getDate()
   day = "0#{day}" if date < 10
   month = date.getMonth() + 1
@@ -16,7 +18,10 @@ _formatMatch = (date, match, i18n) ->
       w || date.getDay()
     when 'mm' then month += ''
     when 'MMMM'
-      m = i18n?.months?[date.getMonth()]
+      if genitive
+        m = i18n?.monthsGenitive?[date.getMonth()]
+      else
+        m = i18n?.months?[date.getMonth()]
       console.warn('i18n months is not defined') unless m
       m || month
     when 'MMM'
@@ -34,19 +39,11 @@ _formatMatch = (date, match, i18n) ->
     when 'yy' then year.slice(-2)
     else match
 
-formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yyyy)|(yy)|(MMMM)|(MMM)|(Do)/g)
-# Format date with pattern
-#
-# @param {Date} date
-# @param {String} format
-# @param {Object} i18n
-#
-# @return {String}
-module.exports = (date, format, i18n) ->
+module.exports = (date, format, i18n, genitive) ->
   matches = format.match(formatRegex)
   throw new Error("Wrong dateFormat: #{format}.") unless matches.length
   str = format
   for match in matches
-    result = _formatMatch(date, match, i18n)
+    result = _formatMatch(date, match, i18n, genitive)
     str = str.replace(match, result)
   str

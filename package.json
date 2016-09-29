@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
-    "start": "node_modules/.bin/webpack -w"
+    "start": "node_modules/.bin/webpack -w",
+    "build": "NODE_ENV=production node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.11.0",
+    "copy-webpack-plugin": "^3.0.1",
     "mocha": "^3.1.0",
     "webpack": "^1.13.2"
   }
