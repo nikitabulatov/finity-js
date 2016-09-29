@@ -10,7 +10,7 @@ describe 'Date format', ->
     assert.equal('30?09?2016', f.format(d, 'dd?mm?yyyy'))
 
   it 'should use locale', ->
-    f.setLocale(en)
+    # f.setLocale(en)
     assert.equal('30/Sep/2016', f.format(d, 'dd/MMM/yyyy'))
     assert.equal('30/September/2016', f.format(d, 'dd/MMMM/yyyy'))
     f.setLocale(ru)

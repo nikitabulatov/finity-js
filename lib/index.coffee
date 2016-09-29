@@ -1,4 +1,4 @@
-i18n = ''
+i18n = require('./locales/en.js')
 _format = require('./format_date')
 
 # Returns diff in days between two dates
