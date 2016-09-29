@@ -1,5 +1,5 @@
 # finity-js
-## Really lightweight date helpers library
+## Without dependencies. Really lightweight date helpers library
 
 ### format
 Format date with pattern

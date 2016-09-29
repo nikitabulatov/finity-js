@@ -2,7 +2,7 @@
   "name": "finity-js",
   "version": "0.0.1",
   "description": "Date helpers",
-  "main": "index.js",
+  "main": "dist/finity.min.js",
   "scripts": {
     "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
     "start": "node_modules/.bin/webpack -w",
@@ -12,6 +12,14 @@
     "type": "git",
     "url": "git+https://github.com/nikitabulatov/finity-js.git"
   },
+  "bugs": {
+    "url": "https://github.com/nikitabulatov/finity-js/issues"
+  },
+  "files": [
+    "dist",
+    "*.md",
+    "locales"
+  ],
   "keywords": [
     "date",
     "helpers",
