@@ -18,7 +18,7 @@ entries = [
         { test: /\.coffee$/, loader: 'coffee-loader' }
       ]
     plugins: [
-      new CopyWebpackPlugin([context: 'lib/locales', from: '*.js'])
+      new CopyWebpackPlugin([context: 'lib/locales', from: '*.js', to: '../locales/'])
     ]
   }
 ]

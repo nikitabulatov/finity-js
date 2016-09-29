@@ -1,5 +1,5 @@
 i18n = ''
-_formatDate = require('./format_date')
+_format = require('./format_date')
 
 # Returns diff in days between two dates
 #
@@ -8,7 +8,7 @@ _formatDate = require('./format_date')
 # @param {Boolean} abs if need to get absolute value
 #
 # @return {Number} in days
-daysDiff = (date1, date2, abs) ->
+diff = (date1, date2, abs) ->
   diff = if abs then Math.abs(date1 - date2) else date1 - date2
   Math.ceil(diff / (1000 * 3600 * 24))
 
@@ -57,8 +57,6 @@ addYears = (date = new Date(), years) ->
   date.setYear(date.getFullYear() + years)
   date
 
-# Get dates range from strings
-# @return {array} ["2016-10-08".."2016-10-31" ]
 # Range by days from startDate to returnDate
 #
 # @param {Date} startDate
@@ -131,12 +129,12 @@ setLocale = (locale) ->
 # @param {Object} i18n
 #
 # @return {String}
-formatDate = (date, format, genitive) ->
-  _formatDate(date, format, i18n, genitive)
+format = (date, format, genitive) ->
+  _format(date, format, i18n, genitive)
 
 module.exports = {
-  formatDate,
-  daysDiff,
+  format,
+  diff,
   daysInMonth,
   getDatesRange,
   getDatesMonthRange,

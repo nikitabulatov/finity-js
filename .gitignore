@@ -8,6 +8,7 @@ Thumbs.db
 node_modules/
 build/
 dist/
+locales/
 .idea/
 npm-debug.log
 index.html
