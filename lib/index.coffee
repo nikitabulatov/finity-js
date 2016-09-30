@@ -81,7 +81,9 @@ getDatesRange = (startDate, endDate) ->
 # @return {[Date]} Array of Dates by months
 getDatesMonthRange = (startDate, endDate) ->
   start = new Date(startDate)
+  start.setDate(1)
   end = new Date(endDate)
+  end.setDate(1)
   range = [startDate]
   while start < end
     newDate = addMonths(start, 1)
@@ -133,6 +135,10 @@ getMonthDates = (date = new Date()) ->
 setLocale = (locale) ->
   i18n = locale
 
+getCurrentLocale = (key) ->
+  return i18n unless key
+  i18n[key]
+
 # Format date with pattern
 #
 # @param {Date} date
@@ -155,5 +161,6 @@ module.exports = {
   addDays,
   addMonths,
   addYears,
-  setLocale
+  setLocale,
+  getCurrentLocale
 }
