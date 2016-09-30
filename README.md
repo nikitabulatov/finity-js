@@ -16,7 +16,7 @@ Patterns format:
 
 example:
 ```javascript
-var finity = require('finity');
+var finity = require('finity-js');
 finity.format(new Date(), 'dd (DDD) MMM yyyy');
 ```
 returns:
@@ -24,8 +24,8 @@ returns:
 
 one more:
 ```javascript
-var finity = require('finity');
-var ru = require('finity/locales/ru');
+var finity = require('finity-js');
+var ru = require('finity-js/locales/ru');
 finity.setLocale(ru); // set Russian locale
 finity.format(new Date(), 'dd (DDDD) MMMM yyyy', true); // use genitive case
 ```
