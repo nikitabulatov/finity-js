@@ -16,6 +16,7 @@ describe 'Date format', ->
     f.setLocale(ru)
     assert.equal('30/Сен/2016', f.format(d, 'dd/MMM/yyyy'))
     assert.equal('30/Сентябрь/2016', f.format(d, 'dd/MMMM/yyyy'))
+    assert.equal('01/Сентябрь/2016', f.format(new Date(2016, 8, 1), 'dd/MMMM/yyyy'))
 
   it 'should use genitive months', ->
     f.setLocale(ru)

@@ -2,7 +2,7 @@ formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yyyy)|(yy)|(MMMM)|(MMM)|(Do)/g)
 
 _formatMatch = (date, match, i18n, genitive) ->
   day = date.getDate()
-  day = "0#{day}" if date < 10
+  day = "0#{day}" if day < 10
   month = date.getMonth() + 1
   month = "0#{month}" if month < 10
   year = '' + date.getFullYear()
