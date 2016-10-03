@@ -1,5 +1,6 @@
 i18n = require('./locales/en.js')
-_format = require('./format_date')
+_format = require('./format')
+_parser = require('./parser')
 
 # Returns diff in days between two dates
 #
@@ -146,8 +147,11 @@ getCurrentLocale = (key) ->
 # @param {Object} i18n
 #
 # @return {String}
-format = (date, format, genitive) ->
-  _format(date, format, i18n, genitive)
+format = (date, format, genitive, locale) ->
+  _format.fn(date, format, genitive, locale || i18n)
+
+parse = (str, format, locale) ->
+  _parser(str, format, locale || i18n)
 
 module.exports = {
   format,
@@ -162,5 +166,6 @@ module.exports = {
   addMonths,
   addYears,
   setLocale,
-  getCurrentLocale
+  getCurrentLocale,
+  parse
 }

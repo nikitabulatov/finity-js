@@ -1,6 +1,6 @@
-formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yyyy)|(yy)|(MMMM)|(MMM)|(Do)/g)
+formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yy?yy?)|(MMM?M?)|(Do)/g)
 
-_formatMatch = (date, match, i18n, genitive) ->
+_formatMatch = (date, match, genitive, i18n) ->
   day = date.getDate()
   day = "0#{day}" if day < 10
   month = date.getMonth() + 1
@@ -39,11 +39,13 @@ _formatMatch = (date, match, i18n, genitive) ->
     when 'yy' then year.slice(-2)
     else match
 
-module.exports = (date, format, i18n, genitive) ->
-  matches = format.match(formatRegex)
-  throw new Error("Wrong dateFormat: #{format}.") unless matches.length
-  str = format
-  for match in matches
-    result = _formatMatch(date, match, i18n, genitive)
-    str = str.replace(match, result)
-  str
+module.exports =
+  fn: (date, format, i18n, genitive) ->
+    matches = format.match(formatRegex)
+    throw new Error("Wrong dateFormat: #{format}.") unless matches.length
+    str = format
+    for match in matches
+      result = _formatMatch(date, match, i18n, genitive)
+      str = str.replace(match, result)
+    str
+  regexp: formatRegex

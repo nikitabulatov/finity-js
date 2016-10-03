@@ -1,11 +1,10 @@
 {
   "name": "finity-js",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Date helpers",
   "main": "dist/finity.min.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
-    "start": "node_modules/.bin/webpack -w",
+    "test": "npm run build && node_modules/.bin/mocha",
     "build": "NODE_ENV=production node_modules/.bin/webpack"
   },
   "repository": {
@@ -32,9 +31,6 @@
   ],
   "author": "nikitabulatov <bulatov.n.o@gmail.com>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nikitabulatov/finity-js/issues"
-  },
   "homepage": "https://github.com/nikitabulatov/finity-js#readme",
   "devDependencies": {
     "coffee-loader": "^0.7.2",
