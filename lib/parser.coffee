@@ -32,7 +32,12 @@ _parseDateWithFormat = (str, matches, i18n) ->
         dateArgs[1] = _parseMonthString(arr?[index], [i18n.months, i18n.monthsGenitive]) - 1
       when 'MMM'
         dateArgs[1] = _parseMonthString(arr?[index], [i18n.monthsShort]) - 1
-      when 'yyyy' then dateArgs[0] = +arr?[index] || -1
+      when 'yyyy'
+        year = arr?[index]
+        if year.length > 2
+          dateArgs[0] = +year || -1
+        else
+          dateArgs[0] = -1
       when 'yy'
         console.warn 'Year format (yy) is ambiguous. Set full year format'
         year = arr?[index] || -1
