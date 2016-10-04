@@ -159,6 +159,7 @@ module.exports = {
   daysInMonth,
   getDatesRange,
   getDatesMonthRange,
+  getMonthDates,
   isLeap,
   isEqualDates,
   isEqualMonths,
@@ -167,5 +168,6 @@ module.exports = {
   addYears,
   setLocale,
   getCurrentLocale,
+  lastMonthDate,
   parse
 }
