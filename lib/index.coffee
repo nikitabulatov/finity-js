@@ -108,6 +108,7 @@ isLeap = (year = new Date()) ->
 #
 # @return {Boolean}
 isEqualDates = (firstDate = new Date(), lastDate = new Date) ->
+  return false if not Date.parse(firstDate) or not Date.parse(lastDate)
   firstDate.getDate() is lastDate.getDate() and
     firstDate.getMonth() is lastDate.getMonth() and
       firstDate.getFullYear() is lastDate.getFullYear()
@@ -119,6 +120,7 @@ isEqualDates = (firstDate = new Date(), lastDate = new Date) ->
 #
 # @return {Boolean}
 isEqualMonths = (firstDate = new Date(), lastDate = new Date) ->
+  return false if not Date.parse(firstDate) or not Date.parse(lastDate)
   firstDate.getMonth() is lastDate.getMonth() and
     firstDate.getFullYear() is lastDate.getFullYear()
 
