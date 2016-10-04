@@ -39,7 +39,6 @@ _parseDateWithFormat = (str, matches, i18n) ->
         else
           dateArgs[0] = -1
       when 'yy'
-        console.warn 'Year format (yy) is ambiguous. Set full year format'
         year = arr?[index] || -1
         if year >= 0 and year.toString().length is 4
           dateArgs[0] = +year
@@ -57,18 +56,14 @@ parse = (rawStr, format, i18n) ->
     return null
   if format
     dateArgs = _parseDateWithFormat(str, format.match(regexp), i18n)
-    for arg in dateArgs when isNaN(arg) || arg < 0
-      console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments"
-      return null
+    return null for arg in dateArgs when isNaN(arg) || arg < 0
     return new Date(dateArgs[0], dateArgs[1], dateArgs[2])
   else
     str = _parseMonthString(str, [i18n.months, i18n.monthsShort, i18n.monthsGenitive])
     str = _replaceWeekdays(str, [i18n.weekdays, i18n.weekdaysShort])
     str = _replacePosfix(str)
     return new Date(str) unless format
-    for arg in dateArgs when isNaN(arg) || arg < 0
-      console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments"
-      return null
+    return null for arg in dateArgs when isNaN(arg) || arg < 0
   new Date(rawStr)
 
 module.exports = parse
