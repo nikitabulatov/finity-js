@@ -130,6 +130,13 @@ lastMonthDate = (date) ->
   date.setDate(0)
   date
 
+isDateInRange = (date, min, max) ->
+  return false if not Date.parse(date)
+  [min, max] = [min || new Date(null), max || Infinity]
+  minLimit = isEqualDates(date, min) or min <= date
+  maxLimit = isEqualDates(date, max) or max >= date
+  minLimit && maxLimit
+
 getMonthDates = (date = new Date()) ->
   date = new Date(date)
   date.setDate(1)
@@ -171,5 +178,6 @@ module.exports = {
   setLocale,
   getCurrentLocale,
   lastMonthDate,
-  parse
+  parse,
+  isDateInRange
 }

@@ -13,3 +13,10 @@ describe 'Helpers', ->
     d2 = new Date(2016, 10, 20, 20)
     assert f.isEqualDates(d1, d2)
     assert.isNotOk(f.isEqualDates(d1, Infinity))
+
+  it 'should check date in min and max range', ->
+    d = new Date(2016, 10, 20)
+    min = new Date(2016, 10, 20)
+    max = new Date(2017, 10, 20)
+    assert f.isDateInRange(d, min, max)
+    assert f.isDateInRange(d, min, min)

@@ -153,6 +153,17 @@ Creates an array with Dates of month
 *Returns*:    
 `Date`
 
+### isDateInRange
+Returns true if date in first argument is >= then date in second argument and <= then date in third argument    
+Comparing only by days, not by hours    
+*Arguments*   
+`Date` The date to process    
+`Date` Min date    
+`Date` Max date    
+*Returns*:    
+`Boolean`   
+
+
 ### getLocale
 Returns current locale    
 *Arguments*   
