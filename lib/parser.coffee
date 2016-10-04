@@ -49,17 +49,21 @@ parse = (rawStr, format, i18n) ->
   format = format.replace(/[^\wа-я]|_/gi, '-') if format
   if not regexp.test(format) and format
     console.warn 'Unexpected format'
-    return new Date(str)
+    return null
   if format
     dateArgs = _parseDateWithFormat(str, format.match(regexp), i18n)
-    console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments" for arg in dateArgs when isNaN(arg) || arg < 0
+    for arg in dateArgs when isNaN(arg) || arg < 0
+      console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments"
+      return null
     return new Date(dateArgs[0], dateArgs[1], dateArgs[2])
   else
     str = _parseMonthString(str, [i18n.months, i18n.monthsShort, i18n.monthsGenitive])
     str = _replaceWeekdays(str, [i18n.weekdays, i18n.weekdaysShort])
     str = _replacePosfix(str)
     return new Date(str) unless format
-  console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments" for arg in dateArgs when isNaN(arg) || arg < 0
+    for arg in dateArgs when isNaN(arg) || arg < 0
+      console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments"
+      return null
   new Date(rawStr)
 
 module.exports = parse
