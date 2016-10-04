@@ -2,9 +2,10 @@ regexp = new RegExp(/(dd)|(mm)|(yy?yy?)|(MMM?M?)|(Do)/g)
 
 _parseMonthString = (str, i18n) ->
   for items in i18n
-    for value, index in items
-      value = value.toLowerCase()
-      return str.replace(value, index + 1) if ~str.indexOf(value)
+    if items and items.length
+      for value, index in items
+        value = value.toLowerCase()
+        return str.replace(value, index + 1) if ~str.indexOf(value)
   str
 
 _replaceWeekdays = (str, i18n) ->
@@ -18,7 +19,7 @@ _replacePosfix = (str) ->
   str.replace(/nd|st|rd|th/, '')
 
 _parseDateWithFormat = (str, matches, i18n) ->
-  arr = str.replace(/[^\w]|_/g, '-').split('-')
+  arr = str.replace(/[^\wа-я]|_/gi, '-').split('-')
   dateArgs = [-1, -1, -1]
   for match, index in matches
     switch match
@@ -28,7 +29,7 @@ _parseDateWithFormat = (str, matches, i18n) ->
         month = arr?[index] - 1
         dateArgs[1] = if month >= 0 then month else -1
       when 'MMMM'
-        dateArgs[1] = _parseMonthString(arr?[index], [i18n.months]) - 1
+        dateArgs[1] = _parseMonthString(arr?[index], [i18n.months, i18n.monthsGenitive]) - 1
       when 'MMM'
         dateArgs[1] = _parseMonthString(arr?[index], [i18n.monthsShort]) - 1
       when 'yyyy' then dateArgs[0] = +arr?[index] || -1
@@ -45,7 +46,7 @@ _parseDateWithFormat = (str, matches, i18n) ->
 
 parse = (rawStr, format, i18n) ->
   str = rawStr.toLowerCase()
-  format = format.replace(/[^\w]|_/g, '-') if format
+  format = format.replace(/[^\wа-я]|_/gi, '-') if format
   if not regexp.test(format) and format
     console.warn 'Unexpected format'
     return new Date(str)
@@ -54,7 +55,7 @@ parse = (rawStr, format, i18n) ->
     console.warn "#{rawStr} with format (#{format}) parsed with errors. Check your arguments" for arg in dateArgs when isNaN(arg) || arg < 0
     return new Date(dateArgs[0], dateArgs[1], dateArgs[2])
   else
-    str = _parseMonthString(str, [i18n.months, i18n.monthsShort])
+    str = _parseMonthString(str, [i18n.months, i18n.monthsShort, i18n.monthsGenitive])
     str = _replaceWeekdays(str, [i18n.weekdays, i18n.weekdaysShort])
     str = _replacePosfix(str)
     return new Date(str) unless format

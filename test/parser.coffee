@@ -1,5 +1,5 @@
 assert = require('assert')
-{parse, isEqualDates} = require('../dist/finity.js')
+{parse, isEqualDates, setLocale} = require('../dist/finity.js')
 
 describe 'Parser', ->
   it 'should parse date', ->
@@ -14,3 +14,8 @@ describe 'Parser', ->
     assert isEqualDates(new Date(2016, 8, 10), parse('10-Sep-16', 'dd(MMM)yy'))
     assert isEqualDates(new Date(2000, 0, 10), parse('10 January 2000', 'dd=MMMM_yyyy'))
     assert isEqualDates(new Date(999, 0, 23), parse('23rd January 999', 'Do-MMMM!yyyy'))
+
+  it 'should parse date string with genetive case and russian locale', ->
+    setLocale(require('../locales/ru'))
+    assert isEqualDates(new Date(2016, 8, 10), parse('10-Сентября-2016', 'dd-MMMM-yyyy'))
+    assert isEqualDates(new Date(2016, 8, 10), parse('2016-Сен-10'))

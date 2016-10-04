@@ -1,6 +1,6 @@
 {
   "name": "finity-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Date helpers",
   "main": "dist/finity.min.js",
   "scripts": {
