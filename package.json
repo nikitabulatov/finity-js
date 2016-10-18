@@ -1,11 +1,12 @@
 {
   "name": "finity-js",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Date helpers",
   "main": "dist/finity.min.js",
   "scripts": {
     "test": "npm run build && node_modules/.bin/mocha",
-    "build": "NODE_ENV=production node_modules/.bin/webpack"
+    "build": "NODE_ENV=production node_modules/.bin/webpack",
+    "start": "NODE_ENV=production node_modules/.bin/webpack -w & node_modules/.bin/mocha -w"
   },
   "repository": {
     "type": "git",

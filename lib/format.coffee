@@ -1,22 +1,28 @@
-formatRegex = new RegExp(/(dd)|(DDD?D?)|(mm)|(yy?yy?)|(MMM?M?)|(Do)/g)
+# TODO: Format time
 
-_formatMatch = (date, match, genitive, i18n) ->
+regexps = [new RegExp(/(Do)|(Mo)/g), new RegExp(/(d?dd?d?)|(D?D)|(YY?YY?)|(M?MM?M?)/g)]
+
+_appendPosfix = (str) ->
+  end = 'th'
+  end = 'st' if str[str.length - 1] is '1' and str[str.length - 2] isnt '1'
+  end = 'nd' if str[str.length - 1] is '2' and str[str.length - 2] isnt '1'
+  end = 'rd' if str[str.length - 1] is '3' and str[str.length - 2] isnt '1'
+  "#{str}#{end}"
+
+_formatPart = (date, match, genitive, i18n) ->
   day = date.getDate()
   day = "0#{day}" if day < 10
   month = date.getMonth() + 1
   month = "0#{month}" if month < 10
   year = '' + date.getFullYear()
   switch match
-    when 'dd' then day += ''
-    when 'DDD'
-      w = i18n?.weekdaysShort?[date.getDay()]
-      console.warn('i18n weekdaysShort is not defined') unless w
-      w || date.getDay()
-    when 'DDDD'
-      w = i18n?.weekdays?[date.getDay()]
-      console.warn('i18n weekdays is not defined') unless w
-      w || date.getDay()
-    when 'mm' then month += ''
+    when 'M' then (date.getMonth() + 1) + ''
+    when 'MM' then month
+    when 'Mo' then _appendPosfix((date.getMonth() + 1) + '')
+    when 'MMM'
+      m = i18n?.monthsShort?[date.getMonth()]
+      console.warn('i18n monthsShort is not defined') unless m
+      m || month
     when 'MMMM'
       if genitive
         m = i18n?.monthsGenitive?[date.getMonth()]
@@ -24,28 +30,33 @@ _formatMatch = (date, match, genitive, i18n) ->
         m = i18n?.months?[date.getMonth()]
       console.warn('i18n months is not defined') unless m
       m || month
-    when 'MMM'
-      m = i18n?.monthsShort?[date.getMonth()]
-      console.warn('i18n monthsShort is not defined') unless m
-      m || month
-    when 'Do'
-      d = '' + date.getDate()
-      end = 'th'
-      end = 'st' if d[d.length - 1] is '1' and d[d.length - 2] isnt '1'
-      end = 'nd' if d[d.length - 1] is '2' and d[d.length - 2] isnt '1'
-      end = 'rd' if d[d.length - 1] is '3' and d[d.length - 2] isnt '1'
-      "#{d}#{end}"
-    when 'yyyy' then year
-    when 'yy' then year.slice(-2)
+    when 'D' then date.getDate() + ''
+    when 'Do' then _appendPosfix('' + date.getDate())
+    when 'DD' then day += ''
+    when 'ddd'
+      w = i18n?.weekdaysShort?[date.getDay()]
+      console.warn('i18n weekdaysShort is not defined') unless w
+      w || date.getDay()
+    when 'dddd'
+      w = i18n?.weekdays?[date.getDay()]
+      console.warn('i18n weekdays is not defined') unless w
+      w || date.getDay()
+    when 'YYYY' then year
+    when 'YY' then year.slice(-2)
     else match
 
-module.exports =
-  fn: (date, format, i18n, genitive) ->
-    matches = format.match(formatRegex)
-    throw new Error("Wrong dateFormat: #{format}.") unless matches.length
-    str = format
-    for match in matches
-      result = _formatMatch(date, match, i18n, genitive)
-      str = str.replace(match, result)
-    str
-  regexp: formatRegex
+_match = (regex, date, str, i18n, genitive) ->
+  matches = str.match(regex)
+  return str unless matches
+  for match in matches
+    result = _formatPart(date, match, i18n, genitive)
+    str = str.replace(match, result)
+  str
+
+format = (date, format, i18n, genitive) ->
+  str = format
+  for regex in regexps
+    str = _match(regex, date, str, i18n, genitive)
+  str
+
+module.exports = format

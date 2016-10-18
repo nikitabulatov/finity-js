@@ -15,7 +15,6 @@ entries = [
       libraryTarget: 'umd'
     module:
       loaders: [
-        # { test: /\.coffee$/, loader: 'coffee-loader' },
         { test: /\.coffee$/, loader: 'coffee-loader' }
       ]
     plugins: [
@@ -37,7 +36,6 @@ if prod
       libraryTarget: 'umd'
     module:
       loaders: [
-        # { test: /\.coffee$/, loader: 'coffee-loader' },
         { test: /\.coffee$/, loader: 'coffee-loader' }
       ]
     plugins: [

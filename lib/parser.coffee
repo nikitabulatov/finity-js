@@ -1,4 +1,4 @@
-regexp = new RegExp(/(dd)|(mm)|(yy?yy?)|(MMM?M?)|(Do)/g)
+regex = new RegExp(/(D?D)|(YY?YY?)|(M?M)/g)
 
 _parseMonthString = (str, i18n) ->
   for items in i18n
@@ -16,54 +16,68 @@ _replaceWeekdays = (str, i18n) ->
   str
 
 _replacePosfix = (str) ->
-  str.replace(/nd|st|rd|th/, '')
+  str.replace(/nd|st|rd|th/g, '')
+
+_getDateArgument = (match, index, arr, i18n) ->
+  switch match
+    when 'M'
+      month = arr?[index] - 1
+      if month >= 0 then [1, month] else [1, -1]
+    when 'MM'
+      month = arr?[index] - 1
+      if month >= 0 then [1, month] else [1, -1]
+    when 'D' then [2, +arr?[index] || -1]
+    when 'DD' then [2, +arr?[index] || -1]
+    when 'YYYY'
+      year = arr?[index]
+      year = if year.length > 2 then +year || -1 else -1
+      [0, year]
+    when 'YY'
+      year = arr?[index] || -1
+      year = if year >= 0 and year.toString().length is 4
+        +year
+      else
+        yearStart = new Date().getFullYear().toString().substr(0, 2)
+        year = if year >= 0 then yearStart + year else -1
+        +year
+      [0, year]
 
 _parseDateWithFormat = (str, matches, i18n) ->
   arr = str.replace(/[^\wа-я]|_/gi, '-').split('-')
   dateArgs = [-1, -1, -1]
   for match, index in matches
-    switch match
-      when 'dd' then dateArgs[2] = +arr?[index] || -1
-      when 'Do' then dateArgs[2] = +_replacePosfix(arr?[index] || '') || -1
-      when 'mm'
-        month = arr?[index] - 1
-        dateArgs[1] = if month >= 0 then month else -1
-      when 'MMMM'
-        dateArgs[1] = _parseMonthString(arr?[index], [i18n.months, i18n.monthsGenitive]) - 1
-      when 'MMM'
-        dateArgs[1] = _parseMonthString(arr?[index], [i18n.monthsShort]) - 1
-      when 'yyyy'
-        year = arr?[index]
-        if year.length > 2
-          dateArgs[0] = +year || -1
-        else
-          dateArgs[0] = -1
-      when 'yy'
-        year = arr?[index] || -1
-        if year >= 0 and year.toString().length is 4
-          dateArgs[0] = +year
-        else
-          yearStart = new Date().getFullYear().toString().substr(0, 2)
-          year = if year >= 0 then yearStart + year else -1
-          dateArgs[0] = +year
+    [argIndex, value] = _getDateArgument(match, index, arr, i18n)
+    dateArgs[argIndex] = value if dateArgs[argIndex] < 0
   dateArgs
 
+_prepareString = (str, i18n) ->
+  str = str.toLowerCase()
+  str = _parseMonthString(str, [i18n.monthsGenitive, i18n.months, i18n.monthsShort])
+  str = _replaceWeekdays(str, [i18n.weekdays, i18n.weekdaysShort])
+  str = _replacePosfix(str)
+
+_prepareFormat = (format) ->
+  return '' unless format
+  format = for pattern in format.replace(/[^\wа-я]|_/gi, '-').split('-')
+    switch pattern
+      when 'Do' then 'D'
+      when 'Mo' then 'M'
+      when 'MMM' then 'M'
+      when 'MMMM' then 'M'
+      when 'ddd' then ''
+      when 'dddd' then ''
+      else pattern
+  format.join('-')
+
 parse = (rawStr, format, i18n) ->
-  str = rawStr.toLowerCase()
-  format = format.replace(/[^\wа-я]|_/gi, '-') if format
-  if not regexp.test(format) and format
-    console.warn 'Unexpected format'
-    return null
-  if format
-    dateArgs = _parseDateWithFormat(str, format.match(regexp), i18n)
+  str = _prepareString(rawStr, i18n)
+  format = _prepareFormat(format)
+  if format and regex.test(format)
+    matches = format.match(regex)
+    dateArgs = _parseDateWithFormat(str, matches, i18n)
     return null for arg in dateArgs when isNaN(arg) || arg < 0
     return new Date(dateArgs[0], dateArgs[1], dateArgs[2])
-  else
-    str = _parseMonthString(str, [i18n.months, i18n.monthsShort, i18n.monthsGenitive])
-    str = _replaceWeekdays(str, [i18n.weekdays, i18n.weekdaysShort])
-    str = _replacePosfix(str)
-    return new Date(str) unless format
-    return null for arg in dateArgs when isNaN(arg) || arg < 0
-  new Date(rawStr)
+  console.warn 'Unexpected format pattern' if format and not regex.test(format)
+  new Date(str)
 
 module.exports = parse

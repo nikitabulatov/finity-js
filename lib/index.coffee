@@ -157,7 +157,7 @@ getCurrentLocale = (key) ->
 #
 # @return {String}
 format = (date, format, genitive, locale) ->
-  _format.fn(date, format, genitive, locale || i18n)
+  _format(date, format, genitive, locale || i18n)
 
 parse = (str, format, locale) ->
   _parser(str, format, locale || i18n)
