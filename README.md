@@ -26,7 +26,7 @@ finity.parse('23rd January 999', 'Do-MMMM!YYYY').toDateString()
 // Wed Jan 23  999
 ```
 
-[Try it on runkit.com](https://runkit.com/57ea01605c85021400922850/580679b2d2c23a0014b18a06)
+[Try it on runkit.com](https://runkit.com/npm/finity-js)
 
 ## Patterns for formatting and parsing date
 Pattern | Result
