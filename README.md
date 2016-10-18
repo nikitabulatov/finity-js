@@ -16,15 +16,17 @@ finity.format(new Date(), 'DD (dddd) MMMM YYYY', true); // use genitive case
 // 30 (Пятница) Сентября 2016
 
 // Basic parser usage
-parse('2016-Jan-1st').toDateString()
+finity.parse('2016-Jan-1st').toDateString()
 // Fri Jan 01 2016
 
 // Parse with known date string mask
-parse('08-09-2015', 'DD%MM?YYYY').toDateString()
+finity.parse('08-09-2015', 'DD%MM?YYYY').toDateString()
 // Tue Sep 08 2015
-parse('23rd January 999', 'Do-MMMM!YYYY').toDateString()
+finity.parse('23rd January 999', 'Do-MMMM!YYYY').toDateString()
 // Wed Jan 23  999
 ```
+
+[Try it on runkit.com](https://runkit.com/57ea01605c85021400922850/580679b2d2c23a0014b18a06)
 
 ## Patterns for formatting and parsing date
 Pattern | Result
