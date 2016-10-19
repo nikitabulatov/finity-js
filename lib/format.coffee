@@ -1,20 +1,8 @@
 patterns = require('patterns')
+r = new RegExp(/Do|Mo|D{1,2}|d{3,4}|M{1,4}|(YY?YY?)|h{1,2}|H{1,2}|m{1,2}|k{1,2}|s{1,2}|a|A/g)
 
-# TODO: Format time
-regexps = [new RegExp(/(Do)|(Mo)/g), new RegExp(/(d?dd?d?)|(D?D)|(YY?YY?)|(M?MM?M?)/g)]
-
-_match = (regex, date, str, i18n, genitive) ->
-  matches = str.match(regex)
-  return str unless matches
-  for match in matches
-    result = patterns[match]?.formatFunc(date, i18n, genitive) || match
-    str = str.replace(match, result)
-  str
-
-format = (date, format, genitive, i18n) ->
-  str = format
-  for regex in regexps
-    str = _match(regex, date, str, i18n, genitive)
-  str
-
-module.exports = format
+module.exports = (date, format, genitive, i18n) ->
+  format.replace(r, (match) ->
+    return patterns[match].formatFunc({date, i18n, genitive}) if match of patterns
+    match.slice(1, match.length - 1)
+  )

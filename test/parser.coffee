@@ -9,6 +9,7 @@ describe 'Parser', ->
     assert isEqualDates(new Date(2016, 0, 1), parse('2016-Jan-1st(Mon)'))
 
   it 'should parse date with format', ->
+    setLocale(require('../locales/en'))
     assert isEqualDates(new Date(2015, 8, 8), parse('08-09-2015', 'DD%MM?YYYY'))
     assert isEqualDates(new Date(2015, 8, 8), parse('08-Sep-2015', 'DD-MMM)YYYY'))
     assert isEqualDates(new Date(2016, 8, 10), parse('10-Sep-16', 'DD(MMM)YY'))
