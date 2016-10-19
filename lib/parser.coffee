@@ -1,3 +1,4 @@
+patterns = require('patterns')
 regex = new RegExp(/(D?D)|(YY?YY?)|(M?M)/g)
 
 _parseMonthString = (str, i18n) ->
@@ -18,35 +19,11 @@ _replaceWeekdays = (str, i18n) ->
 _replacePosfix = (str) ->
   str.replace(/nd|st|rd|th/g, '')
 
-_getDateArgument = (match, index, arr, i18n) ->
-  switch match
-    when 'M'
-      month = arr?[index] - 1
-      if month >= 0 then [1, month] else [1, -1]
-    when 'MM'
-      month = arr?[index] - 1
-      if month >= 0 then [1, month] else [1, -1]
-    when 'D' then [2, +arr?[index] || -1]
-    when 'DD' then [2, +arr?[index] || -1]
-    when 'YYYY'
-      year = arr?[index]
-      year = if year.length > 2 then +year || -1 else -1
-      [0, year]
-    when 'YY'
-      year = arr?[index] || -1
-      year = if year >= 0 and year.toString().length is 4
-        +year
-      else
-        yearStart = new Date().getFullYear().toString().substr(0, 2)
-        year = if year >= 0 then yearStart + year else -1
-        +year
-      [0, year]
-
 _parseDateWithFormat = (str, matches, i18n) ->
   arr = str.replace(/[^\wа-я]|_/gi, '-').split('-')
   dateArgs = [-1, -1, -1]
   for match, index in matches
-    [argIndex, value] = _getDateArgument(match, index, arr, i18n)
+    [argIndex, value] = patterns[match].parseFunc(arr?[index])
     dateArgs[argIndex] = value if dateArgs[argIndex] < 0
   dateArgs
 
