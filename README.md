@@ -31,17 +31,27 @@ finity.parse('23rd January 999', 'Do-MMMM!YYYY').toDateString()
 ## Patterns for formatting and parsing date
 Pattern | Result
 ------- | ------
-`D` 	| 1 2 3 ..
+`YYYY` 	| 1990 1991 1992 ..
+`YY` 	| 90 91 92 ..
+`MMMM` 	| January February March ..
+`MMM` 	| Jan Feb Mar ..
+`MM` 	| 01 02 03 ..
+`M`		| 1 2 3 ..
 `DD` 	| 01 02 03 ..
 `Do`	| 1st 2nd 3rd ..
-`ddd`	| Sun Mon Tue ..
+`D` 	| 1 2 3 ..
 `dddd`	| Sunday Monday Tuesday ..
-`M`		| 1 2 3 ..
-`MM` 	| 01 02 03 ..
-`MMM` 	| Jan Feb Mar ..
-`MMMM` 	| January February March ..
-`YY` 	| 90 91 92 ..
-`YYYY` 	| 1990 1991 1992 ..
+`ddd`	| Sun Mon Tue ..
+`H` | 0 1 2 .. 23
+`HH` | 00 01 02 .. 23
+`h` | 1 2 3 .. 12
+`hh` | 01 02 03 .. 12
+`k` | 1 2 3 .. 24
+`kk` | 01 02 03 .. 24
+`m` | 1 2 3 .. 59
+`mm` | 01 02 03 .. 59
+`s` | 1 2 3 .. 59
+`ss` | 01 02 03 .. 59
 
 
 ## Other date-helpers methods

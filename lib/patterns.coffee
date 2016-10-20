@@ -9,17 +9,25 @@ _appendPosfix = (str) ->
   end = 'rd' if str[str.length - 1] is '3' and str[str.length - 2] isnt '1'
   "#{str}#{end}"
 
+_getAMAPM = (hours, str) ->
+  m = str.toLowerCase().match(/am|pm/g)
+  ampm = m?[0]
+  return hours unless ampm
+  return hours + 12 if ampm is 'pm' and hours < 12
+  return hours - 12 if ampm is 'am' and hours is 12
+  hours
+
 module.exports =
   M:
     formatFunc: ({date}) ->
       (date.getMonth() + 1) + ''
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       month = value - 1
       if month >= 0 then [1, month] else [1, -1]
   MM:
     formatFunc: ({date}) ->
       _addZero(date.getMonth() + 1)
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       month = value - 1
       if month >= 0 then [1, month] else [1, -1]
   Mo:
@@ -41,7 +49,7 @@ module.exports =
   D:
     formatFunc: ({date}) ->
       date.getDate() + ''
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       [2, +value]
   Do:
     formatFunc: ({date}) ->
@@ -49,7 +57,7 @@ module.exports =
   DD:
     formatFunc: ({date}) ->
       _addZero(date.getDate())
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       [2, +value]
   ddd:
     formatFunc: ({date, i18n}) ->
@@ -65,7 +73,7 @@ module.exports =
     formatFunc: ({date}) ->
       year = '' + date.getFullYear()
       year.slice(-2)
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       year = value || -1
       year = if year >= 0 and year.toString().length is 4
         +year
@@ -77,57 +85,63 @@ module.exports =
   YYYY:
     formatFunc: ({date}) ->
       '' + date.getFullYear()
-    parseFunc: (value) ->
+    parseFunc: ({value}) ->
       year = if value.length > 2 then +value || -1 else -1
       [0, year]
   H:
     formatFunc: ({date}) ->
       '' + date.getHours()
-    parseFunc: (value) ->
-      # TODO: check 0 and 24
-      # [3, +value]
+    parseFunc: ({value}) ->
+      [3, +value]
   HH:
     formatFunc: ({date}) ->
       _addZero('' + date.getHours())
-    parseFunc: (value) ->
-      # TODO: check 0 and 24
+    parseFunc: ({value}) ->
       [3, +value]
   h:
     formatFunc: ({date}) ->
       hours = date.getHours() || 24
       hours = hours - 12 if hours > 12
       '' + hours
-    parseFunc: (value, matches) ->
-      # TODO: check 0 and 24
-      # TODO: look at 'A' or 'a' param
-      # [3, +value]
+    parseFunc: ({value, str}) ->
+      [3, _getAMAPM(+value, str)]
   hh:
     formatFunc: ({date}) ->
       hours = date.getHours() || 24
       hours = hours - 12 if hours > 12
       _addZero('' + hours)
-    parseFunc: (value) ->
-      # TODO: check 0 and 24
-      # TODO: look at 'A' or 'a' param
-      # [3, +value]
+    parseFunc: ({value, str}) ->
+      [3, _getAMAPM(+value, str)]
   k:
     formatFunc: ({date}) ->
       '' + (date.getHours() || 24)
+    parseFunc: ({value}) ->
+      [3, +value]
   kk:
     formatFunc: ({date}) ->
       _addZero('' + (date.getHours() || 24))
+    parseFunc: ({value}) ->
+      [3, +value]
   m:
     formatFunc: ({date}) ->
       '' + date.getMinutes()
+    parseFunc: ({value}) ->
+      [4, +value]
   mm:
     formatFunc: ({date}) ->
       _addZero('' + date.getMinutes())
+    parseFunc: ({value}) ->
+      [4, +value]
   s:
     formatFunc: ({date}) ->
       '' + date.getSeconds()
+    parseFunc: ({value}) ->
+      [5, +value]
   ss:
     formatFunc: ({date}) ->
       _addZero('' + date.getSeconds())
+    parseFunc: ({value}) ->
+      [5, +value]
   a:
     formatFunc: ({date}) ->
       hours = date.getHours()

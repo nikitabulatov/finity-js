@@ -1,6 +1,6 @@
 patterns = require('patterns')
 # TODO: move it to patterns.coffee
-regex = new RegExp(/D{1,2}|M{1,2}|(YY?YY?)|h{1,2}|H{1,2}|m{1,2}|k{1,2}|s{1,2}|a|A/g)
+regex = new RegExp(/D{1,2}|M{1,2}|(YY?YY?)|h{1,2}|H{1,2}|m{1,2}|k{1,2}|s{1,2}/g)
 
 _parseMonthString = (str, i18n) ->
   for items in i18n
@@ -18,13 +18,17 @@ _replaceWeekdays = (str, i18n) ->
   str
 
 _replacePosfix = (str) ->
-  str.replace(/nd|st|rd|th/g, '')
+  str.toLowerCase().replace(/nd|st|rd|th|am|pm/g, '')
 
-_parseDateWithFormat = (str, matches) ->
+_parseDateWithFormat = (str, matches, rawStr) ->
   arr = str.replace(/[^\wа-я]|_/gi, '-').split('-')
   dateArgs = []
   for match, index in matches
-    [argIndex, value] = patterns[match].parseFunc(arr?[index], matches)
+    [argIndex, value] = patterns[match].parseFunc({
+      matches
+      str: rawStr
+      value: arr?[index]
+    })
     dateArgs[argIndex] = value if dateArgs[argIndex] is undefined
   dateArgs
 
@@ -50,11 +54,12 @@ _prepareFormat = (format) ->
 _newInstance = (dateArgs) ->
   new (Function.prototype.bind.apply(Date, [null].concat(dateArgs)))
 
+# TODO: Array of formats
 parse = (rawStr, format, i18n) ->
   str = _prepareString(rawStr, i18n)
   format = _prepareFormat(format)
   if format and regex.test(format)
-    dateArgs = _parseDateWithFormat(str, format.match(regex))
+    dateArgs = _parseDateWithFormat(str, format.match(regex), rawStr)
     return null if dateArgs.length < 3
     return _newInstance(dateArgs)
   console.warn 'Unexpected format pattern' if format and not regex.test(format)

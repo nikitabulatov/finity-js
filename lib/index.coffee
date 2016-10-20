@@ -101,18 +101,6 @@ isLeap = (year = new Date()) ->
   year = year.getFullYear() if year instanceof Date
   new Date(year, 1, 29).getMonth() is 1
 
-# Returns true if day, month and year is equals
-#
-# @param {Date} firstDate
-# @param {Date} lastDate  The [description].
-#
-# @return {Boolean}
-isEqualDates = (firstDate = new Date(), lastDate = new Date) ->
-  return false if not Date.parse(firstDate) or not Date.parse(lastDate)
-  firstDate.getDate() is lastDate.getDate() and
-    firstDate.getMonth() is lastDate.getMonth() and
-      firstDate.getFullYear() is lastDate.getFullYear()
-
 # Returns true if month and year is equals
 #
 # @param {Date} firstDate
@@ -123,6 +111,35 @@ isEqualMonths = (firstDate = new Date(), lastDate = new Date) ->
   return false if not Date.parse(firstDate) or not Date.parse(lastDate)
   firstDate.getMonth() is lastDate.getMonth() and
     firstDate.getFullYear() is lastDate.getFullYear()
+
+# Returns true if day, month and year is equals
+#
+# @param {Date} firstDate
+# @param {Date} lastDate  The [description].
+#
+# @return {Boolean}
+isEqualDates = (firstDate = new Date(), lastDate = new Date()) ->
+  return false if not Date.parse(firstDate) or not Date.parse(lastDate)
+  firstDate.getDate() is lastDate.getDate() and isEqualMonths(firstDate, lastDate)
+
+isEqual = (firstDate = new Date(), lastDate = new Date(), deep = 'day') ->
+  switch deep
+    when 'year' then firstDate.getFullYear() is lastDate.getFullYear()
+    when 'month' then isEqualMonths(firstDate, lastDate)
+    when 'day' then isEqualDates(firstDate, lastDate)
+    when 'hours'
+      isEqualDates(firstDate, lastDate) and
+        firstDate.getHours() is lastDate.getHours()
+    when 'minutes'
+      isEqualDates(firstDate, lastDate) and
+        firstDate.getHours() is lastDate.getHours() and
+            firstDate.getMinutes() is lastDate.getMinutes()
+    when 'seconds'
+      isEqualDates(firstDate, lastDate) and
+        firstDate.getHours() is lastDate.getHours() and
+            firstDate.getMinutes() is lastDate.getMinutes() and
+              firstDate.getSeconds() is lastDate.getSeconds()
+    else firstDate is lastDate
 
 lastMonthDate = (date) ->
   new Date(date)
@@ -172,6 +189,7 @@ module.exports = {
   isLeap,
   isEqualDates,
   isEqualMonths,
+  isEqual,
   addDays,
   addMonths,
   addYears,
