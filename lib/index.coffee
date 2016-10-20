@@ -179,6 +179,9 @@ format = (date, format, genitive, locale) ->
 parse = (str, format, locale) ->
   _parser(str, format, locale || i18n)
 
+utc = (date = new Date()) ->
+  new Date(date.getTime() + date.getTimezoneOffset() * 60000)
+
 module.exports = {
   format,
   diff,
@@ -197,5 +200,6 @@ module.exports = {
   getCurrentLocale,
   lastMonthDate,
   parse,
+  utc,
   isDateInRange
 }

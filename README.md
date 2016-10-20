@@ -195,7 +195,19 @@ Comparing only by days, not by hours
 Returns current locale    
 **Arguments**
 
-- `String`(optional): key of locale   
+- `String`(optional): key of locale
+
+**Returns**:
+`*`
+
+### utc
+Returns new Date instance with UTC time
+**Arguments**
+
+- `Date`(optional): Date to process
+
+**Returns**:
+`Date`
 
 **Returns**:    
 `Object`: Returns object(locale) if called without key    
