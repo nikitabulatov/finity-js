@@ -127,14 +127,14 @@ isEqual = (firstDate = new Date(), lastDate = new Date(), deep = 'day') ->
     when 'year' then firstDate.getFullYear() is lastDate.getFullYear()
     when 'month' then isEqualMonths(firstDate, lastDate)
     when 'day' then isEqualDates(firstDate, lastDate)
-    when 'hours'
+    when 'hour'
       isEqualDates(firstDate, lastDate) and
         firstDate.getHours() is lastDate.getHours()
-    when 'minutes'
+    when 'minute'
       isEqualDates(firstDate, lastDate) and
         firstDate.getHours() is lastDate.getHours() and
             firstDate.getMinutes() is lastDate.getMinutes()
-    when 'seconds'
+    when 'second'
       isEqualDates(firstDate, lastDate) and
         firstDate.getHours() is lastDate.getHours() and
             firstDate.getMinutes() is lastDate.getMinutes() and

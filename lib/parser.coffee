@@ -20,7 +20,9 @@ _replaceWeekdays = (str, i18n) ->
 _replacePosfix = (str) ->
   str.toLowerCase().replace(/nd|st|rd|th|am|pm/g, '')
 
-_parseDateWithFormat = (str, matches, rawStr) ->
+_parseDateWithFormat = (str, format, regex, rawStr) ->
+  format = _prepareFormat(format)
+  matches = format.match(regex)
   arr = str.replace(/[^\wа-я]|_/gi, '-').split('-')
   dateArgs = []
   for match, index in matches
@@ -30,7 +32,8 @@ _parseDateWithFormat = (str, matches, rawStr) ->
       value: arr?[index]
     })
     dateArgs[argIndex] = value if dateArgs[argIndex] is undefined
-  dateArgs
+  return null if dateArgs.length < 3
+  return _newInstance(dateArgs)
 
 _prepareString = (str, i18n) ->
   str = str.toLowerCase()
@@ -52,17 +55,18 @@ _prepareFormat = (format) ->
   format.join('-')
 
 _newInstance = (dateArgs) ->
+  for arg in dateArgs
+    return null if isNaN(arg)
   new (Function.prototype.bind.apply(Date, [null].concat(dateArgs)))
 
-# TODO: Array of formats
-parse = (rawStr, format, i18n) ->
+parse = (rawStr, formats, i18n) ->
   str = _prepareString(rawStr, i18n)
-  format = _prepareFormat(format)
-  if format and regex.test(format)
-    dateArgs = _parseDateWithFormat(str, format.match(regex), rawStr)
-    return null if dateArgs.length < 3
-    return _newInstance(dateArgs)
-  console.warn 'Unexpected format pattern' if format and not regex.test(format)
+  if formats
+    formats = [formats] unless formats instanceof Array
+    for format in formats
+      date = _parseDateWithFormat(str, format, regex, rawStr)
+      return date if date
+  console.warn 'Unexpected format pattern' if formats and not regex.test(formats)
   new Date(str)
 
 module.exports = parse

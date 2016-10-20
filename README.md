@@ -19,6 +19,10 @@ finity.format(new Date(), 'DD (dddd) MMMM YYYY', true); // use genitive case
 finity.parse('2016-Jan-1st').toDateString()
 // Fri Jan 01 2016
 
+// You can try to parse date few times by array. (Here first format will be ignored)
+finity.parse('2016-10-20 10:36:30pm', ['MM-DD ha', 'YYYY-MM-DD hh:mm:ssa', 'YYYY-M-D'])
+// Returns new Date instance: Thu Oct 20 2016 22:36:30 GMT+0700 (ICT)
+
 // Parse with known date string mask
 finity.parse('08-09-2015', 'DD%MM?YYYY').toDateString()
 // Tue Sep 08 2015
@@ -133,6 +137,16 @@ Returns is leap year or not
 
 **Returns**:    
 `Boolean`   
+
+### isEqual
+**Arguments**
+
+- `Date`
+- `Date`
+- `String` — type of check: `year` or `month` or `day` or `hour` or `minute` or `second`
+
+**Returns**:    
+`Boolean`
 
 ### isEqualDates
 Returns true if days, months and years is equals of both dates    
