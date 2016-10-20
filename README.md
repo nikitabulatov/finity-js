@@ -1,4 +1,5 @@
 # finity-js
+[![Build Status](https://travis-ci.org/nikitabulatov/finity-js.svg?branch=master)](https://travis-ci.org/nikitabulatov/finity-js)
 ## Without dependencies. Really lightweight date helpers library
 
 ## Usage:
