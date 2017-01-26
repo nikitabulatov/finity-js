@@ -10,6 +10,9 @@ describe 'Date format', ->
     assert.equal('30/9/2016', format(d, 'DD/M/YYYY'))
     assert.equal('30?09?2016', format(d, 'DD?MM?YYYY'))
 
+  it 'should call exception', ->
+    assert.throws(format.bind(null, 'It is invalid date', 'DD?MM?YYYY'), Error, 'Invalid date')
+
   it 'should use locale', ->
     assert.equal('30/Sep/2016', format(d, 'DD/MMM/YYYY'))
     assert.equal('30/September/2016', format(d, 'DD/MMMM/YYYY'))
