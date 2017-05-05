@@ -22,14 +22,14 @@ module.exports =
     formatFunc: ({date}) ->
       (date.getMonth() + 1) + ''
     parseFunc: ({value}) ->
-      month = value - 1
-      if month >= 0 then [1, month] else [1, -1]
+      return [-1, -1] if value.length < 1 or value.length > 2
+      [1, +value - 1]
   MM:
     formatFunc: ({date}) ->
       _addZero(date.getMonth() + 1)
     parseFunc: ({value}) ->
-      month = value - 1
-      if month >= 0 then [1, month] else [1, -1]
+      return [-1, -1] if value.length isnt 2
+      [1, +value - 1]
   Mo:
     formatFunc: ({date}) ->
       _appendPosfix((date.getMonth() + 1) + '')
@@ -50,6 +50,7 @@ module.exports =
     formatFunc: ({date}) ->
       date.getDate() + ''
     parseFunc: ({value}) ->
+      return [-1, -1] if value.length < 1 or value.length > 2
       [2, +value]
   Do:
     formatFunc: ({date}) ->
@@ -58,6 +59,7 @@ module.exports =
     formatFunc: ({date}) ->
       _addZero(date.getDate())
     parseFunc: ({value}) ->
+      return [-1, -1] if value.length isnt 2
       [2, +value]
   ddd:
     formatFunc: ({date, i18n}) ->
@@ -74,20 +76,15 @@ module.exports =
       year = '' + date.getFullYear()
       year.slice(-2)
     parseFunc: ({value}) ->
-      year = value || -1
-      year = if year >= 0 and year.toString().length is 4
-        +year
-      else
-        yearStart = new Date().getFullYear().toString().substr(0, 2)
-        year = if year >= 0 then yearStart + year else -1
-        +year
-      [0, year]
+      return [-1, -1] if value.length isnt 2
+      yearStart = +(new Date().getFullYear().toString().substr(0, 2))
+      [0, yearStart + value]
   YYYY:
     formatFunc: ({date}) ->
       '' + date.getFullYear()
     parseFunc: ({value}) ->
-      year = if value.length > 2 then +value || -1 else -1
-      [0, year]
+      return [-1, -1] if value.length isnt 4
+      [0, +value]
   H:
     formatFunc: ({date}) ->
       '' + date.getHours()

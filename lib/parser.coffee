@@ -31,7 +31,7 @@ _parseDateWithFormat = (str, format, regex, rawStr) ->
       str: rawStr
       value: arr?[index]
     })
-    dateArgs[argIndex] = value if dateArgs[argIndex] is undefined
+    dateArgs[argIndex] = value if dateArgs[argIndex] is undefined and argIndex >= 0
   return null if dateArgs.length < 3
   return _newInstance(dateArgs)
 
@@ -55,8 +55,7 @@ _prepareFormat = (format) ->
   format.join('-')
 
 _newInstance = (dateArgs) ->
-  for arg in dateArgs
-    return null if isNaN(arg)
+  return null for arg in dateArgs when isNaN(arg)
   new (Function.prototype.bind.apply(Date, [null].concat(dateArgs)))
 
 parse = (rawStr, formats, i18n) ->
