@@ -184,7 +184,7 @@ utc = (date = new Date()) ->
 
 dayOfYear = (date = new Date()) ->
   start = new Date(date.getFullYear(), 0, 0)
-  diff(start, date)
+  diff(date, start)
 
 module.exports = {
   format,
