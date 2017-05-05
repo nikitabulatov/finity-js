@@ -10,8 +10,8 @@ _parser = require('./parser')
 #
 # @return {Number} in days
 diff = (date1, date2, abs) ->
-  diff = if abs then Math.abs(date1 - date2) else date1 - date2
-  Math.ceil(diff / (1000 * 3600 * 24))
+  _diff = if abs then Math.abs(date1 - date2) else date1 - date2
+  Math.ceil(_diff / (1000 * 3600 * 24))
 
 # Returns days in current month
 #
@@ -182,6 +182,10 @@ parse = (str, format, locale) ->
 utc = (date = new Date()) ->
   new Date(date.getTime() + date.getTimezoneOffset() * 60000)
 
+dayOfYear = (date = new Date()) ->
+  start = new Date(date.getFullYear(), 0, 0)
+  diff(start, date)
+
 module.exports = {
   format,
   diff,
@@ -201,5 +205,6 @@ module.exports = {
   lastMonthDate,
   parse,
   utc,
-  isDateInRange
+  isDateInRange,
+  dayOfYear
 }

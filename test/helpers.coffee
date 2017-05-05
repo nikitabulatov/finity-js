@@ -20,3 +20,6 @@ describe 'Helpers', ->
     max = new Date(2017, 10, 20)
     assert f.isDateInRange(d, min, max)
     assert f.isDateInRange(d, min, min)
+
+  it 'should calc day of year', ->
+    assert(20, f.dayOfYear(new Date(2016, 0, 20)))
