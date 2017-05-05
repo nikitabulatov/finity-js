@@ -25,9 +25,9 @@ finity.parse('2016-10-20 10:36:30pm', ['MM-DD ha', 'YYYY-MM-DD hh:mm:ssa', 'YYYY
 // Returns new Date instance: Thu Oct 20 2016 22:36:30 GMT+0700 (ICT)
 
 // Parse with known date string mask
-finity.parse('08-09-2015', 'DD%MM?YYYY').toDateString()
+finity.parse('08-09-2015', 'DD-MM-YYYY').toDateString()
 // Tue Sep 08 2015
-finity.parse('23rd January 999', 'Do-MMMM!YYYY').toDateString()
+finity.parse('23rd January 999', 'Do MMMM YYYY').toDateString()
 // Wed Jan 23  999
 ```
 

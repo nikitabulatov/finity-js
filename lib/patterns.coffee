@@ -28,7 +28,7 @@ module.exports =
     formatFunc: ({date}) ->
       _addZero(date.getMonth() + 1)
     parseFunc: ({value}) ->
-      return [-1, -1] if value.length isnt 2
+      return [-1, -1] if value.length < 1 or value.length > 2
       [1, +value - 1]
   Mo:
     formatFunc: ({date}) ->
@@ -59,7 +59,7 @@ module.exports =
     formatFunc: ({date}) ->
       _addZero(date.getDate())
     parseFunc: ({value}) ->
-      return [-1, -1] if value.length isnt 2
+      return [-1, -1] if value.length < 1 or value.length > 2
       [2, +value]
   ddd:
     formatFunc: ({date, i18n}) ->
@@ -78,7 +78,7 @@ module.exports =
     parseFunc: ({value}) ->
       return [-1, -1] if value.length isnt 2
       yearStart = +(new Date().getFullYear().toString().substr(0, 2))
-      [0, yearStart + value]
+      [0, +(yearStart + value)]
   YYYY:
     formatFunc: ({date}) ->
       '' + date.getFullYear()
@@ -145,7 +145,7 @@ module.exports =
       return 'pm' if hours >= 12
       return 'am'
   A:
-    formatFunc: ({date, matches}) ->
+    formatFunc: ({date}) ->
       hours = date.getHours()
       return 'PM' if hours >= 12
       return 'AM'
