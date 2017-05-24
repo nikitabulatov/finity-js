@@ -35,15 +35,18 @@ module.exports =
       _appendPosfix((date.getMonth() + 1) + '')
   MMM:
     formatFunc: ({date, i18n, genitive}) ->
-      m = i18n?.monthsShort?[date.getMonth()]
+      m = if genitive
+        i18n?.monthsShortGenitive?[date.getMonth()]
+      else
+        i18n?.monthsShort?[date.getMonth()]
       console.warn('i18n monthsShort is not defined') unless m
       m || _addZero(date.getMonth() + 1)
   MMMM:
     formatFunc: ({date, i18n, genitive}) ->
-      if genitive
-        m = i18n?.monthsGenitive?[date.getMonth()]
+      m = if genitive
+        i18n?.monthsGenitive?[date.getMonth()]
       else
-        m = i18n?.months?[date.getMonth()]
+        i18n?.months?[date.getMonth()]
       console.warn('i18n months is not defined') unless m
       m || _addZero(date.getMonth() + 1)
   D:
