@@ -22,4 +22,6 @@ describe 'Helpers', ->
     assert f.isDateInRange(d, min, min)
 
   it 'should calc day of year', ->
-    assert(20, f.dayOfYear(new Date(2016, 0, 20)))
+    assert.equal(20, f.dayOfYear(new Date(2016, 0, 20)))
+    assert.equal(20, f.dayOfYear(new Date(2016, 0, 20, 0, 0, 0)))
+    assert.equal(20, f.dayOfYear(new Date(2016, 0, 20, 15, 33, 59)))

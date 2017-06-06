@@ -183,6 +183,7 @@ utc = (date = new Date()) ->
   new Date(date.getTime() + date.getTimezoneOffset() * 60000)
 
 dayOfYear = (date = new Date()) ->
+  date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   start = new Date(date.getFullYear(), 0, 0)
   diff(date, start)
 
