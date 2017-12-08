@@ -69,6 +69,10 @@ parse = (rawStr, formats, i18n) ->
       date = _parseDateWithFormat(str, format, regex, rawStr)
       return date if date
   console.warn 'Unexpected format pattern' if formats and not regex.test(formats)
-  new Date(str)
+  result = new Date(str)
+  if isFinite(result)
+    result
+  else
+    throw new Error("Unable to parse string #{rawStr}")
 
 module.exports = parse
