@@ -41,5 +41,5 @@ describe 'Parser', ->
     assert isEqual(new Date(2017, 7, 10), parse('2017-8-10', ['D MMMM YYYY', 'DD.MM.YY', 'DD.MM.YYYY', 'YYYY-MM-DD', 'YYYY.MM.DD']))
     assert isEqual(new Date(2017, 7, 10), parse('2017.8.10', ['D MMMM YYYY', 'DD.MM.YY', 'DD.MM.YYYY', 'YYYY-MM-DD', 'YYYY.MM.DD']))
 
-  it.only 'should throw error', ->
+  it 'should throw error', ->
     assert.throws(parse.bind(null, '201611-Janddd-1st', ['YYYY-DD-MM']), Error)
