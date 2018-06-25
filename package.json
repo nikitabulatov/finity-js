@@ -18,7 +18,8 @@
   "files": [
     "dist",
     "*.md",
-    "locales"
+    "locales",
+    "*.d.ts"
   ],
   "keywords": [
     "date",
