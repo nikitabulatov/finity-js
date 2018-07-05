@@ -16,7 +16,7 @@ declare module 'finity-js' {
   export function setLocale(locale: object): void
   export function getCurrentLocale(): object
   export function format(date: Date, format: string, locale?: object): string
-  export function parse(str: string, format: string | string[], locale?: object): string
+  export function parse(str: string, format: string | string[], locale?: object): Date
   export function utc(date: Date): Date
   export function dayOfYear(date: Date): number
 }
